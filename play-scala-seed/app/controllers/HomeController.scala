@@ -22,6 +22,9 @@ class HomeController @Inject()(cc: ControllerComponents,
    * a path of `/`.
    */
 
+  def index = Action {
+    Ok(views.html.index())
+  }
 
   def dbInit() = Action.async { request =>
     movieRepository.dbInit

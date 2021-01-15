@@ -27,10 +27,36 @@ class MovieRepository @Inject() (
     // Definición de la sentencia SQL de creación del schema
     db.run(movieQuery.schema.createIfNotExists)
   }
-  def getAll = ???
-  def getOne = ???
-  def create = ???
-  def update = ???
-  def delete = ???
+  def getAll = {
+    val query= movieQuery.sortBy(_.id)
+    db.run(query.result)
+  }
+
+  def getOne(id:String) = {
+    val query= movieQuery.filter(_.id===id)
+    db.run(query.result.headOption)
+
+  }
+  def create(movie:Movie) = {
+    val insert= movieQuery += movie
+    db.run(insert)
+      .flatMap(_=> getOne(movie.id.getOrElse("")))
+
+
+  }
+  def update(id:String, movie:Movie) = {
+    val query=movieQuery.filter(_.id===movie.id &&movie.id.contains(id) )
+    val update= query.update(movie)
+    db.run(update)
+      .flatMap(_=> db.run(query.result.headOption))
+  }
+  def delete(id:String) = {
+    val query= movieQuery.filter(_.id===id)
+    for {
+      objeto <- db.run(query.result.headOption)
+      _<-db.run(query.delete)
+    } yield objeto
+
+  }
 
 }

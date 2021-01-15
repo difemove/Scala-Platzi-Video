@@ -1,0 +1,1078 @@
+{
+	"info": {
+		"_postman_id": "5ff64e84-95d2-448a-ad95-58322be6b724",
+		"name": "Scala-Platzi-Video",
+		"description": "Test CRUD for Platzi-Video Backend developed in Scala. ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "dbInit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Body is correct\", function () {\r",
+							"    pm.response.to.have.body(\"Tabla creada\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/dbInit",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"dbInit"
+					]
+				},
+				"description": "Map resources, this initialize database if not created"
+			},
+			"response": [
+				{
+					"name": "{{URL}}/dbInit",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/dbInit",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"dbInit"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 14 Jan 2021 14:40:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "12"
+						}
+					],
+					"cookie": [],
+					"body": "Tabla creada"
+				}
+			]
+		},
+		{
+			"name": "Get All Movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/movies",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"movies"
+					],
+					"query": [
+						{
+							"key": "ordering",
+							"value": "-ranking",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "rick",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Request for all stored movies"
+			},
+			"response": []
+		},
+		{
+			"name": "Get last inserted movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Movie listed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    if (jsonData.message===\"Movie listed\" && jsonData.data!==null) {\r",
+							"        pm.environment.set(\"lastPostedId\", jsonData.data.id);\r",
+							"    }\r",
+							"    pm.expect(jsonData.message).to.eql(\"Movie listed\");\r",
+							"    \r",
+							"});\r",
+							"pm.test(\"Element exists\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData.data).is.not.oneOf([null,undefined])\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"{{lastPostedId}}"
+					],
+					"query": [
+						{
+							"key": "ordering",
+							"value": "-ranking",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "rick",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Gets last inserted movie to the repository"
+			},
+			"response": [
+				{
+					"name": "Element does not exist",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies",
+								"{{lastPostedId}}"
+							],
+							"query": [
+								{
+									"key": "ordering",
+									"value": "-ranking",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "rick",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Jan 2021 00:12:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": null,\n    \"message\": \"Movie listed\"\n}"
+				},
+				{
+					"name": "Movie does not exist",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies",
+								"{{lastPostedId}}"
+							],
+							"query": [
+								{
+									"key": "ordering",
+									"value": "-ranking",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "rick",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Jan 2021 00:11:04 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": null,\n    \"message\": \"Movie listed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Movie according to id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Movie listed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    if (jsonData.message===\"Movie listed\" && jsonData.data!==null) {\r",
+							"        pm.environment.set(\"lastPostedId\", jsonData.data.id);\r",
+							"    }\r",
+							"    pm.expect(jsonData.message).to.eql(\"Movie listed\");\r",
+							"    \r",
+							"});\r",
+							"pm.test(\"Element exists\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(jsonData.data).is.not.oneOf([null,undefined])\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"{{lastPostedId}}"
+					],
+					"query": [
+						{
+							"key": "ordering",
+							"value": "-ranking",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "rick",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Gets a movie according to their id. By default, it requests for movie with id 1 or lastPostedId"
+			},
+			"response": [
+				{
+					"name": "Element does not exist",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies",
+								"{{lastPostedId}}"
+							],
+							"query": [
+								{
+									"key": "ordering",
+									"value": "-ranking",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "rick",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Jan 2021 00:12:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": null,\n    \"message\": \"Movie listed\"\n}"
+				},
+				{
+					"name": "Movie does not exist",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies",
+								"{{lastPostedId}}"
+							],
+							"query": [
+								{
+									"key": "ordering",
+									"value": "-ranking",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "rick",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Jan 2021 00:11:04 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "38"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": null,\n    \"message\": \"Movie listed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Insert Movie",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let ratings= [\"G\", \"PG\", \"PG-13\" , \"R\", \"NC-17\"];\r",
+							"pm.environment.set(\"actualContentRating\", ratings[_.random(0,4)]);\r",
+							"pm.environment.set(\"actualDuration\", _.random(60,160));\r",
+							"pm.environment.set(\"actualYear\",  _.random(1920, 2021) );\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Movie listed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    if (jsonData.message===\"Movie listed\") {\r",
+							"        pm.environment.set(\"actualid\", jsonData.data.id);\r",
+							"    }\r",
+							"    pm.expect(jsonData.message).to.eql(\"Movie listed\");\r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"id\" : \"{{$randomUUID}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{randomYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{randomDuration}},\r\n    \"contentRating\" : \"{{randomContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}} | {{$randomAdjective}} | {{$randomAdjective}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/movies",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"movies"
+					]
+				},
+				"description": "Creates a new Movie in the repository. "
+			},
+			"response": [
+				{
+					"name": "POST Movie Correct",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"id\" : \"{{$randomUUID}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{actualYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{actualYear}},\r\n    \"contentRating\" : \"{{actualContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/movies",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 14 Jan 2021 23:45:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "290"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": \"37349e4c-f865-42ab-8e4d-4a2ad4db08e7\",\n        \"title\": \"the lime hardware\",\n        \"year\": 1971,\n        \"cover\": \"http://placeimg.com/640/480\",\n        \"description\": \"this is a Quality-focused movie\",\n        \"duration\": 1971,\n        \"contentRating\": \"R\",\n        \"source\": \"https://herminio.com\",\n        \"tags\": \"virtual\"\n    },\n    \"message\": \"Movie listed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Movie",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let ratings= [\"G\", \"PG\", \"PG-13\" , \"R\", \"NC-17\"];\r",
+							"pm.environment.set(\"actualContentRating\", ratings[_.random(0,4)]);\r",
+							"pm.environment.set(\"actualDuration\", _.random(60,160));\r",
+							"pm.environment.set(\"actualYear\",  _.random(1920, 2021) );\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Movie listed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    if (jsonData.message===\"Movie listed\") {\r",
+							"        pm.environment.set(\"lastPostedId\", jsonData.data.id);\r",
+							"    }\r",
+							"    pm.expect(jsonData.message).to.eql(\"Movie listed\");\r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"id\" : \"{{lastPostedId}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{randomYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{randomDuration}},\r\n    \"contentRating\" : \"{{randomContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}} | {{$randomAdjective}} | {{$randomAdjective}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"{{lastPostedId}}"
+					]
+				},
+				"description": "Updates elements of a Movie in the repository."
+			},
+			"response": [
+				{
+					"name": "POST Movie Correct",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"id\" : \"{{$randomUUID}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{actualYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{actualYear}},\r\n    \"contentRating\" : \"{{actualContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/movies",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 14 Jan 2021 23:45:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "290"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": \"37349e4c-f865-42ab-8e4d-4a2ad4db08e7\",\n        \"title\": \"the lime hardware\",\n        \"year\": 1971,\n        \"cover\": \"http://placeimg.com/640/480\",\n        \"description\": \"this is a Quality-focused movie\",\n        \"duration\": 1971,\n        \"contentRating\": \"R\",\n        \"source\": \"https://herminio.com\",\n        \"tags\": \"virtual\"\n    },\n    \"message\": \"Movie listed\"\n}"
+				},
+				{
+					"name": "Update Movie success",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"id\" : \"{{lastPostedId}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{randomYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{randomDuration}},\r\n    \"contentRating\" : \"{{randomContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}} | {{$randomAdjective}} | {{$randomAdjective}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies",
+								"{{lastPostedId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Jan 2021 00:04:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "316"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": \"02086de9-7161-4145-9a6a-29fec7f48623\",\n        \"title\": \"the orange hardware\",\n        \"year\": 1933,\n        \"cover\": \"http://placeimg.com/640/480\",\n        \"description\": \"this is a Multi-channelled movie\",\n        \"duration\": 102,\n        \"contentRating\": \"G\",\n        \"source\": \"https://rosalyn.net\",\n        \"tags\": \"auxiliary | open-source | haptic\"\n    },\n    \"message\": \"Movie listed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Movie Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let ratings= [\"G\", \"PG\", \"PG-13\" , \"R\", \"NC-17\"];\r",
+							"pm.environment.set(\"actualContentRating\", ratings[_.random(0,4)]);\r",
+							"pm.environment.set(\"actualDuration\", _.random(60,160));\r",
+							"pm.environment.set(\"actualYear\",  _.random(1920, 2021) );\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Movie listed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    if (jsonData.message===\"Movie listed\") {\r",
+							"        pm.environment.set(\"lastPostedId\", jsonData.data.id);\r",
+							"    }\r",
+							"    pm.expect(jsonData.message).to.eql(\"Movie listed\");\r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"id\" : \"{{lastPostedId}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{randomYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{randomDuration}},\r\n    \"contentRating\" : \"{{randomContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}} | {{$randomAdjective}} | {{$randomAdjective}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"movies",
+						"{{lastPostedId}}"
+					]
+				},
+				"description": "Updates elements of a Movie in the repository."
+			},
+			"response": [
+				{
+					"name": "Update Movie success",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"id\" : \"{{lastPostedId}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{randomYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{randomDuration}},\r\n    \"contentRating\" : \"{{randomContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}} | {{$randomAdjective}} | {{$randomAdjective}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/movies/{{lastPostedId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies",
+								"{{lastPostedId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Jan 2021 00:04:54 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "316"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": \"02086de9-7161-4145-9a6a-29fec7f48623\",\n        \"title\": \"the orange hardware\",\n        \"year\": 1933,\n        \"cover\": \"http://placeimg.com/640/480\",\n        \"description\": \"this is a Multi-channelled movie\",\n        \"duration\": 102,\n        \"contentRating\": \"G\",\n        \"source\": \"https://rosalyn.net\",\n        \"tags\": \"auxiliary | open-source | haptic\"\n    },\n    \"message\": \"Movie listed\"\n}"
+				},
+				{
+					"name": "POST Movie Correct",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"id\" : \"{{$randomUUID}}\",\r\n    \"title\" : \"the {{$randomColor}} {{$randomCatchPhraseNoun}}\",\r\n    \"year\" : {{actualYear}},\r\n    \"cover\" : \"{{$randomImageUrl}}\",\r\n    \"description\" : \"this is a {{$randomCatchPhraseAdjective}} movie\",\r\n    \"duration\" : {{actualYear}},\r\n    \"contentRating\" : \"{{actualContentRating}}\",\r\n    \"source\" : \"{{$randomUrl}}\",\r\n    \"tags\" : \"{{$randomAdjective}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/movies",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"movies"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Referrer-Policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "master-only"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 14 Jan 2021 23:45:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "290"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": \"37349e4c-f865-42ab-8e4d-4a2ad4db08e7\",\n        \"title\": \"the lime hardware\",\n        \"year\": 1971,\n        \"cover\": \"http://placeimg.com/640/480\",\n        \"description\": \"this is a Quality-focused movie\",\n        \"duration\": 1971,\n        \"contentRating\": \"R\",\n        \"source\": \"https://herminio.com\",\n        \"tags\": \"virtual\"\n    },\n    \"message\": \"Movie listed\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:9000",
+			"disabled": true
+		}
+	]
+}
